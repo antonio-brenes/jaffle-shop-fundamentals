@@ -26,6 +26,9 @@ sources:
         columns:
           - name: id
             data_type: number
+            data_tests:
+              - unique
+              - not_null              
           - name: orderid
             data_type: number
           - name: paymentmethod
@@ -38,4 +41,13 @@ sources:
             data_type: date
           - name: _batched_at
             data_type: timestamp_ntz
+        config: 
+          freshness:
+            warn_after:
+              count: 100
+              period: day
+            error_after:
+              count: 1000
+              period: day
+          loaded_at_field: _batched_at            
     

@@ -28,6 +28,9 @@ sources:
         columns:
           - name: id
             data_type: number
+            data_tests:
+              - unique
+              - not_null   
           - name: first_name
             data_type: varchar
           - name: last_name
@@ -37,6 +40,9 @@ sources:
         columns:
           - name: id
             data_type: number
+            data_tests:
+              - unique
+              - not_null               
           - name: user_id
             data_type: number
           - name: order_date
@@ -45,3 +51,12 @@ sources:
             data_type: varchar
           - name: _etl_loaded_at
             data_type: timestamp_ntz
+        config:
+          freshness:
+            warn_after:
+              count: 100
+              period: day
+            error_after:
+              count: 1000
+              period: day
+          loaded_at_field: _etl_loaded_at        
