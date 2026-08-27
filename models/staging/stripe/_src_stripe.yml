@@ -2,5 +2,14 @@ sources:
   - name: stripe
     database: raw
     schema: stripe
+    config: 
+      freshness:
+        warn_after:
+          count: 100
+          period: day
+        error_after:
+          count: 1000
+          period: day
+      loaded_at_field: _BATCHED_AT
     tables:
       - name: payment
