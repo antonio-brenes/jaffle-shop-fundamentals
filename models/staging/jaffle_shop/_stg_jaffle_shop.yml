@@ -1,0 +1,43 @@
+models:
+  - name: stg_jaffle_shop__customers
+    description: One record per Jaffle Shop customer.
+    columns:
+      - name: customer_id
+        description: Primary key for the customer.
+        data_tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: Customer's first name.
+      - name: last_name
+        description: Customer's last name.
+  - name: stg_jaffle_shop__orders
+    description: One record per Jaffle Shop order.
+    columns:
+      - name: order_id
+        description: Primary key for the order.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_status
+        description: "{{ doc('order_status') }}"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - completed
+                  - shipped
+                  - returned
+                  - placed
+                  - return_pending
+          - not_null
+      - name: customer_id
+        description: Identifier of the customer who placed the order.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_jaffle_shop__customers')
+                field: customer_id
+          - not_null
+      - name: order_date
+        description: Date the order was placed.

@@ -1,0 +1,41 @@
+models:
+  - name: stg_stripe__payments
+    description: One record per Stripe payment, with payment amounts converted from cents to dollars.
+    columns:
+      - name: payment_id
+        description: Primary key for the Stripe payment.
+        data_tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Identifier of the Jaffle Shop order associated with this payment.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_jaffle_shop__orders')
+                field: order_id
+          - not_null
+      - name: payment_method
+        description: Method used to make the payment.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - bank_transfer
+                  - coupon
+                  - credit_card
+                  - gift_card
+          - not_null
+      - name: payment_status
+        description: Processing outcome reported by Stripe.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - success
+                  - fail
+          - not_null
+      - name: payment_amount
+        description: Payment amount in dollars, converted from the source amount stored in cents.
+      - name: created_at
+        description: Date the payment record was created in Stripe.
